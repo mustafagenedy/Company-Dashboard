@@ -1,0 +1,73 @@
+@model Company.DAL.Entity.Meeting
+@{
+    ViewData["Title"] = "Meeting Details";
+}
+<div class="container my-4">
+    <h1 class="h3 mb-4">Meeting Details</h1>
+    <dl class="row">
+        <dt class="col-sm-3">Title</dt>
+        <dd class="col-sm-9">@Model.Title</dd>
+        <dt class="col-sm-3">Description</dt>
+        <dd class="col-sm-9">@Model.Description</dd>
+        <dt class="col-sm-3">Start Time</dt>
+        <dd class="col-sm-9">@Model.StartTime</dd>
+        <dt class="col-sm-3">End Time</dt>
+        <dd class="col-sm-9">@Model.EndTime</dd>
+        <dt class="col-sm-3">Location</dt>
+        <dd class="col-sm-9">@Model.Location</dd>
+        <dt class="col-sm-3">Online Link</dt>
+        <dd class="col-sm-9">@Model.OnlineLink</dd>
+        <dt class="col-sm-3">Recurring</dt>
+        <dd class="col-sm-9">@(Model.IsRecurring ? Model.RecurrencePattern ?? "Yes" : "No")</dd>
+        <dt class="col-sm-3">Departments</dt>
+        <dd class="col-sm-9">
+            @if (Model.MeetingDepartments != null && Model.MeetingDepartments.Any())
+            {
+                <ul>
+                @foreach (var md in Model.MeetingDepartments)
+                {
+                    <li>@md.Department?.Name</li>
+                }
+                </ul>
+            }
+            else { <span class="text-muted">None</span> }
+        </dd>
+        <dt class="col-sm-3">Projects</dt>
+        <dd class="col-sm-9">
+            @if (Model.MeetingProjects != null && Model.MeetingProjects.Any())
+            {
+                <ul>
+                @foreach (var mp in Model.MeetingProjects)
+                {
+                    <li>@mp.Project?.Name</li>
+                }
+                </ul>
+            }
+            else { <span class="text-muted">None</span> }
+        </dd>
+        <dt class="col-sm-3">Participants</dt>
+        <dd class="col-sm-9">
+            @if (Model.Participants != null && Model.Participants.Any())
+            {
+                <ul>
+                @foreach (var p in Model.Participants)
+                {
+                    <li>@p.Employee?.EmployeeName</li>
+                }
+                </ul>
+            }
+            else { <span class="text-muted">None</span> }
+        </dd>
+        <dt class="col-sm-3">Created By</dt>
+        <dd class="col-sm-9">@Model.CreatedBy?.EmployeeName</dd>
+    </dl>
+    <div class="d-flex justify-content-end mt-4">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary me-2">
+            <i class="fas fa-edit me-1"></i> Edit Meeting
+        </a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+            <i class="fas fa-trash-alt me-1"></i> Delete Meeting
+        </a>
+    </div>
+    <a asp-action="Index" class="btn btn-secondary">Back to Meetings</a>
+</div> 

@@ -1,0 +1,62 @@
+@model Company.DAL.Entity.Task
+@{
+    ViewData["Title"] = "Edit Task";
+    var projects = ViewBag.Projects as List<Company.DAL.Entity.Project>;
+    var departments = ViewBag.Departments as List<Company.DAL.Entity.Department>;
+    var employees = ViewBag.Employees as List<Company.DAL.Entity.Employee>;
+}
+<div class="container my-4">
+    <h1 class="h3 mb-4">Edit Task</h1>
+    <form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label">Title</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Description</label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Status" class="form-label">Status</label>
+            <select asp-for="Status" class="form-select" asp-items="@(new SelectList(new[]{"Pending","Completed"}, Model.Status))">
+                <option value="">Select status</option>
+            </select>
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="DueDate" class="form-label">Due Date</label>
+            <input asp-for="DueDate" type="date" class="form-control" />
+            <span asp-validation-for="DueDate" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ProjectId" class="form-label">Project</label>
+            <select asp-for="ProjectId" class="form-select" asp-items="@(new SelectList(ViewBag.Projects, "Id", "Name", Model.ProjectId))">
+                <option value="">Select a project</option>
+            </select>
+            <span asp-validation-for="ProjectId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="DepartmentId" class="form-label">Department (Optional)</label>
+            <select asp-for="DepartmentId" class="form-select" asp-items="@(new SelectList(ViewBag.Departments, "Id", "Name", Model.DepartmentId))">
+                <option value="">Select a department</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label asp-for="EmployeeId" class="form-label">Employee (Optional)</label>
+            <select asp-for="EmployeeId" class="form-select" asp-items="@(new SelectList(ViewBag.Employees, "EmployeeId", "EmployeeName", Model.EmployeeId))">
+                <option value="">Select an employee</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-success">Save Changes</button>
+        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+</div>
+@section Scripts {
+    <script>
+        // The toggleAssignmentFields function and its associated script block are removed
+        // as the department and employee fields are now always visible.
+    </script>
+} 

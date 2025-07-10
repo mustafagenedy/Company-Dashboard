@@ -1,0 +1,71 @@
+@model Company.PL.Models.CreateMeetingViewModel
+@{
+    ViewData["Title"] = "Schedule Meeting";
+    var departments = ViewBag.Departments as List<Company.DAL.Entity.Department>;
+    var projects = ViewBag.Projects as List<Company.DAL.Entity.Project>;
+    var employees = ViewBag.Employees as List<Company.DAL.Entity.Employee>;
+}
+<div class="container my-4">
+    <h1 class="h3 mb-4">Schedule Meeting</h1>
+    <form asp-action="Create" method="post">
+        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label">Title</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Description</label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="StartTime" class="form-label">Start Time</label>
+                <input asp-for="StartTime" type="datetime-local" class="form-control" />
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="EndTime" class="form-label">End Time</label>
+                <input asp-for="EndTime" type="datetime-local" class="form-control" />
+                <span asp-validation-for="EndTime" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Location" class="form-label">Location</label>
+            <input asp-for="Location" class="form-control" />
+            <span asp-validation-for="Location" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="OnlineLink" class="form-label">Online Link</label>
+            <input asp-for="OnlineLink" class="form-control" />
+            <span asp-validation-for="OnlineLink" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Departments</label>
+            <select asp-for="SelectedDepartments" class="form-select" multiple size="4" asp-items="@(new MultiSelectList(departments, "Id", "Name", Model.SelectedDepartments))"></select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Projects</label>
+            <select asp-for="SelectedProjects" class="form-select" multiple size="4" asp-items="@(new MultiSelectList(projects, "Id", "Name", Model.SelectedProjects))"></select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Employees</label>
+            <select asp-for="SelectedEmployees" class="form-select" multiple size="4" asp-items="@(new MultiSelectList(employees, "EmployeeId", "EmployeeName", Model.SelectedEmployees))"></select>
+        </div>
+        <div class="mb-3">
+            <label asp-for="IsRecurring" class="form-label">Recurring?</label>
+            <input asp-for="IsRecurring" type="checkbox" class="form-check-input" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="RecurrencePattern" class="form-label">Recurrence Pattern</label>
+            <select asp-for="RecurrencePattern" class="form-select">
+                <option value="">One-time</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-success">Create Meeting</button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+</div> 

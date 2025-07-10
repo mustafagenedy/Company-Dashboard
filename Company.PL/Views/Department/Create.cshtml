@@ -1,0 +1,290 @@
+﻿
+
+
+
+
+@model CreateDepartmentDto
+@{
+    ViewData["Title"] = "Create Department";
+}
+
+<div class="container my-4">
+    <!-- Page Header -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">Create Department</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="breadcrumb-item"><a asp-controller="Department" asp-action="Index">Departments</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Create</li>
+                </ol>
+            </nav>
+        </div>
+        <a asp-controller="Department" asp-action="Index" class="btn btn-sm btn-outline-primary">
+            <i class="fas fa-arrow-left me-1"></i> Back to Department List
+        </a>
+    </div>
+
+    <div class="row">
+        <!-- Form Column -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-3 mb-4">
+                <div class="card-header bg-gradient-primary text-white py-3 rounded-top">
+                    <h6 class="m-0 font-weight-bold"><i class="fas fa-plus-circle me-2"></i>Department Information</h6>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post" id="createDepartmentForm">
+                        <div class="mb-4">
+                            <label asp-for="Code" class="form-label fw-bold">Department Code <span class="text-danger">*</span></label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-hashtag text-primary"></i>
+                                </span>
+                                <input asp-for="Code" class="form-control form-control-lg border-start-0"
+                                       placeholder="Enter unique department code" autocomplete="off" />
+                            </div>
+                            <div class="form-text text-muted">
+                                <i class="fas fa-info-circle me-1"></i> Code must be unique and should be short
+                            </div>
+                            <span asp-validation-for="Code" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Name" class="form-label fw-bold">Department Name <span class="text-danger">*</span></label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-building text-primary"></i>
+                                </span>
+                                <input asp-for="Name" class="form-control form-control-lg border-start-0"
+                                       placeholder="Enter department name" autocomplete="off" />
+                            </div>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="CreatedAt" class="form-label fw-bold">Creation Date</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-calendar-alt text-primary"></i>
+                                </span>
+                                <input asp-for="CreatedAt" type="date" class="form-control form-control-lg border-start-0"
+                                       value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            </div>
+                            <span asp-validation-for="CreatedAt" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-5">
+                            <a asp-controller="Department" asp-action="Index" class="btn btn-outline-danger btn-lg px-4">
+                                <i class="fas fa-times me-2 text-danger"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-lg px-5">
+                                <i class="fas fa-save me-2"></i>Create Department
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips Column -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-3 mb-4 bg-light">
+                <div class="card-body p-4">
+                    <h5 class="card-title">
+                        <i class="fas fa-lightbulb text-warning me-2"></i>Creating Departments
+                    </h5>
+                    <p class="card-text text-muted">
+                        Departments help organize your organization's structure and resources.
+                    </p>
+                    <hr>
+                    <div class="tips-list">
+                        <div class="d-flex mb-3">
+                            <div class="flex-shrink-0">
+                                <div class="icon-circle bg-primary text-white">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="ms-3">
+                                <h6 class="mb-1">Use Clear Names</h6>
+                                <p class="small text-muted mb-0">Choose department names that clearly reflect their function.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-3">
+                            <div class="flex-shrink-0">
+                                <div class="icon-circle bg-primary text-white">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="ms-3">
+                                <h6 class="mb-1">Short Codes</h6>
+                                <p class="small text-muted mb-0">Use short, meaningful codes that are easy to remember.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <div class="icon-circle bg-primary text-white">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="ms-3">
+                                <h6 class="mb-1">Stay Organized</h6>
+                                <p class="small text-muted mb-0">Keep your department structure clean and logical.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recently Created Departments -->
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-gradient-info text-white py-3">
+                    <h6 class="m-0 font-weight-bold"><i class="fas fa-history me-2"></i>Recently Created</h6>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                            <div>
+                                <span class="badge bg-primary me-2">CS</span>
+                                <span>Computer Science</span>
+                            </div>
+                            <small class="text-muted">2 days ago</small>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                            <div>
+                                <span class="badge bg-success me-2">IT</span>
+                                <span>Information Technology</span>
+                            </div>
+                            <small class="text-muted">3 days ago</small>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                            <div>
+                                <span class="badge bg-info me-2">DM</span>
+                                <span>Degital Media</span>
+                            </div>
+                            <small class="text-muted">1 week ago</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Input focus and transition effects */
+        .form-control:focus {
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+        }
+
+        .form-control,
+        .input-group-text {
+            border-color: #e0e0e0;
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Gradient backgrounds */
+        .bg-gradient-primary {
+            background: linear-gradient(to right, #4e73df, #224abe);
+        }
+
+        .bg-gradient-info {
+            background: linear-gradient(to right, #36b9cc, #1a8a98);
+        }
+
+        /* Circle icon */
+        .icon-circle {
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        /* Submit button animation on click */
+        .btn-primary:not(:disabled):not(.disabled):active {
+            animation: btnPulse 0.3s ease-in-out;
+        }
+
+        
+
+        /* Button styling and hover effects */
+        .btn-primary {
+            background-color: #4e73df;
+            border-color: #4e73df;
+        }
+
+            .btn-primary:hover {
+                background-color: #2e59d9;
+                border-color: #2653d4;
+            }
+
+        /* Input group hover styling */
+        .input-group:hover .input-group-text {
+            background-color: #f8f9fc;
+        }
+
+        .input-group:hover .form-control {
+            border-color: #bac8f3;
+        }
+
+        /* Card hover effects */
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15) !important;
+            }
+    </style>
+}
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function() {
+            // Add floating label effect
+            $('.form-control').on('focus blur', function (e) {
+                $(this).parents('.form-group').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));
+            }).trigger('blur');
+
+            // Real-time validation feedback
+            $("#Code").on("input", function() {
+                if($(this).val().length > 0) {
+                    $(this).removeClass("is-invalid").addClass("is-valid");
+                } else {
+                    $(this).removeClass("is-valid").addClass("is-invalid");
+                }
+            });
+
+            $("#Name").on("input", function() {
+                if($(this).val().length > 0) {
+                    $(this).removeClass("is-invalid").addClass("is-valid");
+                } else {
+                    $(this).removeClass("is-valid").addClass("is-invalid");
+                }
+            });
+
+            // Submit button animation
+            $("#createDepartmentForm").on("submit", function() {
+                $("button[type='submit']").html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Creating...');
+            });
+        });
+    </script>
+}
+
+
+
+
+
+
+
+
+

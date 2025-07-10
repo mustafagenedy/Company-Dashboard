@@ -1,0 +1,39 @@
+@model IEnumerable<Company.DAL.Entity.Meeting>
+@{
+    ViewData["Title"] = "Meetings";
+}
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">Meetings</h1>
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Create Meeting</a>
+        </p>
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Location</th>
+                <th>Created By</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var meeting in Model)
+        {
+            <tr>
+                <td>@meeting.Title</td>
+                <td>@meeting.StartTime</td>
+                <td>@meeting.EndTime</td>
+                <td>@meeting.Location</td>
+                <td>@meeting.CreatedBy?.EmployeeName</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@meeting.Id" class="btn btn-sm btn-info">Details</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div> 

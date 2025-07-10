@@ -1,0 +1,310 @@
+﻿@model Company.PL.Models.DashboardOverviewViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container my-4">
+    <!-- Welcome Header -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="h3 mb-0 text-gray-800">
+                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                    </h1>
+                    <p class="text-muted small mb-0">Welcome to your management dashboard</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-md-end mt-3 mt-md-0">
+                        <span class="text-muted">Today: @DateTime.Now.ToString("MMMM dd, yyyy")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Access Cards -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-primary rounded-circle p-3 me-3">
+                            <i class="fas fa-building text-white fa-lg"></i>
+                        </div>
+                        <h5 class="card-title mb-0">Department Management</h5>
+                    </div>
+                    <p class="card-text">Manage all your organizational departments, view details, and track statistics.</p>
+                    <div class="mt-3 d-flex">
+                        <a asp-controller="Department" asp-action="Index" class="btn btn-outline-primary me-2">
+                            <i class="fas fa-list me-1"></i> View All
+                        </a>
+                        <a asp-controller="Department" asp-action="Create" class="btn btn-primary">
+                            <i class="fas fa-plus me-1"></i> Add New
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer bg-white py-3">
+                    <div class="small text-muted">
+                        <i class="fas fa-info-circle me-1"></i> Manage your company's organizational structure
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-success rounded-circle p-3 me-3">
+                            <i class="fas fa-users text-white fa-lg"></i>
+                        </div>
+                        <h5 class="card-title mb-0">Employee Management</h5>
+                    </div>
+                    <p class="card-text">Manage your workforce, view employee profiles, and handle personnel records.</p>
+                    <div class="mt-3 d-flex">
+                        <a asp-controller="Employee" asp-action="Index" class="btn btn-outline-success me-2">
+                            <i class="fas fa-list me-1"></i> View All
+                        </a>
+                        <a asp-controller="Employee" asp-action="Create" class="btn btn-success">
+                            <i class="fas fa-plus me-1"></i> Add New
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer bg-white py-3">
+                    <div class="small text-muted">
+                        <i class="fas fa-info-circle me-1"></i> Manage your company's human resources
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overview Stats Row -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-white">
+            <h6 class="m-0 font-weight-bold text-primary">Organization Overview</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="border-left-primary p-3 rounded shadow-sm">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Departments
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalDepartments">@Model.DepartmentCount</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="border-left-success p-3 rounded shadow-sm">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Employees
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalEmployees">@Model.EmployeeCount</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="border-left-info p-3 rounded shadow-sm">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Active Projects
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.ActiveProjectCount</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="border-left-warning p-3 rounded shadow-sm">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Tasks Pending
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.PendingTaskCount</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity & Quick Links -->
+    <div class="row">
+        <!-- Recent Activity Panel -->
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Recent Activity</h6>
+                </div>
+                <div class="card-body">
+                    <div class="activity-timeline">
+                        <div class="activity-item d-flex mb-3">
+                            <div class="activity-icon bg-primary text-white rounded-circle p-2 me-3">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="font-weight-bold">New employee added</div>
+                                <div class="small text-muted">Today at 10:30 AM</div>
+                            </div>
+                        </div>
+                        <div class="activity-item d-flex mb-3">
+                            <div class="activity-icon bg-success text-white rounded-circle p-2 me-3">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="font-weight-bold">Department updated</div>
+                                <div class="small text-muted">Yesterday at 3:45 PM</div>
+                            </div>
+                        </div>
+                        <div class="activity-item d-flex mb-3">
+                            <div class="activity-icon bg-info text-white rounded-circle p-2 me-3">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="font-weight-bold">Project status updated</div>
+                                <div class="small text-muted">May 9, 2025</div>
+                            </div>
+                        </div>
+                        <div class="activity-item d-flex">
+                            <div class="activity-icon bg-warning text-white rounded-circle p-2 me-3">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="font-weight-bold">Team meeting scheduled</div>
+                                <div class="small text-muted">May 8, 2025</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-white text-center">
+                    <a href="#" class="btn btn-sm btn-link">View All Activity</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links Panel -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Quick Links</h6>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fas fa-user-plus me-2 text-primary"></i>
+                                Add New Employee
+                            </div>
+                            <i class="fas fa-chevron-right text-muted small"></i>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fas fa-building me-2 text-primary"></i>
+                                Create Department
+                            </div>
+                            <i class="fas fa-chevron-right text-muted small"></i>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fas fa-file-export me-2 text-primary"></i>
+                                Export Reports
+                            </div>
+                            <i class="fas fa-chevron-right text-muted small"></i>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fas fa-cog me-2 text-primary"></i>
+                                System Settings
+                            </div>
+                            <i class="fas fa-chevron-right text-muted small"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Status -->
+            <div class="card shadow-sm mt-4">
+                <div class="card-header bg-white py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">System Status</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Database</span>
+                            <span class="text-success">Online</span>
+                        </div>
+                        <div class="progress" style="height: 5px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>API Services</span>
+                            <span class="text-success">Online</span>
+                        </div>
+                        <div class="progress" style="height: 5px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Security</span>
+                            <span class="text-success">Protected</span>
+                        </div>
+                        <div class="progress" style="height: 5px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .border-left-primary {
+            border-left: 4px solid #4e73df !important;
+        }
+
+        .border-left-success {
+            border-left: 4px solid #1cc88a !important;
+        }
+
+        .border-left-info {
+            border-left: 4px solid #36b9cc !important;
+        }
+
+        .border-left-warning {
+            border-left: 4px solid #f6c23e !important;
+        }
+
+        .activity-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress {
+            border-radius: 0.5rem;
+        }
+
+        /* Update Bootstrap 5 classes */
+        .mr-2 {
+            margin-right: 0.5rem !important;
+        }
+
+        .mr-3 {
+            margin-right: 1rem !important;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Initialize any UI components
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+}

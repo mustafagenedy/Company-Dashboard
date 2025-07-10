@@ -1,0 +1,276 @@
+﻿@model Employee
+@{
+    ViewData["Title"] = "Create Employee";
+}
+
+<div class="container my-4">
+    <!-- Page Header -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">Create Employee</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="breadcrumb-item"><a asp-controller="Employee" asp-action="Index">Employees</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Create</li>
+                </ol>
+            </nav>
+        </div>
+        <a asp-controller="Employee" asp-action="Index" class="btn btn-sm btn-outline-primary">
+            <i class="fas fa-arrow-left me-1"></i> Back to Employee List
+        </a>
+    </div>
+
+    <div class="row">
+        <!-- Form Column -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-3 mb-4">
+                <div class="card-header bg-gradient-primary text-white py-3 rounded-top">
+                    <h6 class="m-0 font-weight-bold"><i class="fas fa-plus-circle me-2"></i>Employee Information</h6>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post" id="createEmployeeForm">
+                        <div class="mb-4 form-group">
+                            <label asp-for="EmployeeName" class="form-label fw-bold">Full Name <span class="text-danger">*</span></label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-user text-primary"></i>
+                                </span>
+                                <input asp-for="EmployeeName" class="form-control form-control-lg border-start-0"
+                                       placeholder="Enter employee's full name" autocomplete="off" />
+                            </div>
+                            <span asp-validation-for="EmployeeName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4 form-group">
+                            <label asp-for="EmployeeEmail" class="form-label fw-bold">Email Address <span class="text-danger">*</span></label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-envelope text-primary"></i>
+                                </span>
+                                <input asp-for="EmployeeEmail" type="email" class="form-control form-control-lg border-start-0"
+                                       placeholder="Enter email address" autocomplete="off" />
+                            </div>
+                            <div class="form-text text-muted">
+                                <i class="fas fa-info-circle me-1"></i> Professional email is recommended
+                            </div>
+                            <span asp-validation-for="EmployeeEmail" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4 form-group">
+                            <label asp-for="EmployeeRole" class="form-label fw-bold">Role <span class="text-danger">*</span></label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-briefcase text-primary"></i>
+                                </span>
+                                <select asp-for="EmployeeRole" class="form-select form-select-lg border-start-0" asp-items="@(new SelectList(new[]{"Manager","Developer","Designer","QA Engineer","HR","Sales","Finance","Support"}))">
+                                    <option value="">Select a role</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="EmployeeRole" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4 form-group">
+                            <label asp-for="DepartmentId" class="form-label fw-bold">Department <span class="text-danger">*</span></label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-building text-primary"></i>
+                                </span>
+                                <select asp-for="DepartmentId" class="form-select form-select-lg border-start-0" asp-items="@(new SelectList(ViewBag.Departments, "Id", "Name"))">
+                                    <option value="">Select a department</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-5">
+                            <a asp-controller="Employee" asp-action="Index" class="btn btn-outline-danger btn-lg px-4">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-lg px-5">
+                                <i class="fas fa-save me-2"></i>Create Employee
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips Column -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-3 mb-4 bg-light">
+                <div class="card-body p-4">
+                    <h5 class="card-title">
+                        <i class="fas fa-lightbulb text-warning me-2"></i>Adding Employees
+                    </h5>
+                    <p class="card-text text-muted">
+                        Employees are the backbone of your organization. Make sure to add all relevant information.
+                    </p>
+                    <hr>
+                    <div class="tips-list">
+                        <div class="d-flex mb-3">
+                            <div class="flex-shrink-0">
+                                <div class="icon-circle bg-primary text-white">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="ms-3">
+                                <h6 class="mb-1">Full Legal Name</h6>
+                                <p class="small text-muted mb-0">Use the employee's complete legal name for records.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-3">
+                            <div class="flex-shrink-0">
+                                <div class="icon-circle bg-primary text-white">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="ms-3">
+                                <h6 class="mb-1">Valid Email</h6>
+                                <p class="small text-muted mb-0">Ensure the email address is active and correct.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <div class="icon-circle bg-primary text-white">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="ms-3">
+                                <h6 class="mb-1">Appropriate Role</h6>
+                                <p class="small text-muted mb-0">Assign the correct role based on responsibilities.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recently Added Employees -->
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-gradient-info text-white py-3">
+                    <h6 class="m-0 font-weight-bold"><i class="fas fa-history me-2"></i>Recently Added</h6>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                            <div>
+                                <span class="avatar-circle bg-primary me-2">J</span>
+                                <span>John Smith</span>
+                            </div>
+                            <small class="text-muted">2 days ago</small>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                            <div>
+                                <span class="avatar-circle bg-success me-2">S</span>
+                                <span>Sarah Johnson</span>
+                            </div>
+                            <small class="text-muted">3 days ago</small>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                            <div>
+                                <span class="avatar-circle bg-info me-2">M</span>
+                                <span>Michael Brown</span>
+                            </div>
+                            <small class="text-muted">1 week ago</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Input focus and transition effects */
+        .form-control:focus,
+        .form-select:focus {
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+        }
+
+        .form-control,
+        .form-select,
+        .input-group-text {
+            border-color: #e0e0e0;
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Gradient backgrounds */
+        .bg-gradient-primary {
+            background: linear-gradient(to right, #4e73df, #224abe);
+        }
+
+        .bg-gradient-info {
+            background: linear-gradient(to right, #36b9cc, #1a8a98);
+        }
+
+        /* Circle icon */
+        .icon-circle {
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        /* Avatar circle (for the recently added list) */
+        .avatar-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Submit button animation on click */
+        .btn-primary:not(:disabled):not(.disabled):active {
+            animation: btnPulse 0.3s ease-in-out;
+        }
+
+       
+
+        /* Button styling and hover effects */
+        .btn-primary {
+            background-color: #4e73df;
+            border-color: #4e73df;
+        }
+
+        .btn-primary:hover {
+            background-color: #2e59d9;
+            border-color: #2653d4;
+        }
+
+        /* Input group hover styling */
+        .input-group:hover .input-group-text {
+            background-color: #f8f9fc;
+        }
+
+        .input-group:hover .form-control,
+        .input-group:hover .form-select {
+            border-color: #bac8f3;
+        }
+
+        /* Card hover effects */
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        }
+    </style>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+ 
+}

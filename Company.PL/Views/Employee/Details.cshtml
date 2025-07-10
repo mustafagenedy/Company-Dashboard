@@ -1,0 +1,284 @@
+﻿@model Employee
+@{
+    ViewData["Title"] = "Employee Details";
+}
+
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h2 class="mb-0">Employee Details</h2>
+                    <a asp-controller="Employee" asp-action="Index" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Employee Profile Section -->
+                        <div class="col-md-4 border-end">
+                            <div class="text-center mb-4">
+                                <div class="avatar-circle-large bg-primary mx-auto mb-3">
+                                    @(Model.EmployeeName.Length > 0 ? Model.EmployeeName[0].ToString().ToUpper() : "")
+                                </div>
+                                <h4 class="mb-0">@Model.EmployeeName</h4>
+                                <p class="text-muted">@Model.EmployeeRole</p>
+                                <span class="badge bg-success px-3 py-2">Active</span>
+                            </div>
+
+                            <div class="list-group list-group-flush mb-4">
+                                <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                    <span><i class="fas fa-id-badge me-2 text-primary"></i> Employee ID</span>
+                                    <span class="fw-bold">@Model.EmployeeId</span>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                    <span><i class="fas fa-envelope me-2 text-primary"></i> Email</span>
+                                    <span class="fw-bold">@Model.EmployeeEmail</span>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                    <span><i class="fas fa-calendar-alt me-2 text-primary"></i> Joined</span>
+                                    <span class="fw-bold">@DateTime.Now.AddMonths(-3).ToString("MMM dd, yyyy")</span>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <a asp-action="Edit" asp-route-id="@Model.EmployeeId" class="btn btn-outline-primary">
+                                    <i class="fas fa-edit me-1"></i> Edit Employee
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Employee Details Section -->
+                        <div class="col-md-8">
+                            <ul class="nav nav-tabs" id="employeeDetailTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="activity-tab" data-bs-toggle="tab" data-bs-target="#activity" type="button" role="tab" aria-controls="activity" aria-selected="false">Activity</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="documents-tab" data-bs-toggle="tab" data-bs-target="#documents" type="button" role="tab" aria-controls="documents" aria-selected="false">Documents</button>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content p-3 border border-top-0 rounded-bottom" id="employeeDetailTabsContent">
+                                <!-- Overview Tab -->
+                                <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                                    <div class="card mb-3">
+                                        <div class="card-header">
+                                            <h5 class="mb-0"><i class="fas fa-user-tag me-2"></i>Role Information</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label text-muted">Department</label>
+                                                    <p class="fs-6">Human Resources</p>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label text-muted">Position</label>
+                                                    <p class="fs-6">@Model.EmployeeRole</p>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label text-muted">Manager</label>
+                                                    <p class="fs-6">Jane Wilson</p>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label text-muted">Work Type</label>
+                                                    <p class="fs-6">Full-time</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Performance Summary</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-4">
+                                                <div class="d-flex justify-content-between mb-1">
+                                                    <span>Attendance</span>
+                                                    <span>95%</span>
+                                                </div>
+                                                <div class="progress" style="height: 10px;">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-4">
+                                                <div class="d-flex justify-content-between mb-1">
+                                                    <span>Task Completion</span>
+                                                    <span>87%</span>
+                                                </div>
+                                                <div class="progress" style="height: 10px;">
+                                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 87%" aria-valuenow="87" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="d-flex justify-content-between mb-1">
+                                                    <span>Team Collaboration</span>
+                                                    <span>90%</span>
+                                                </div>
+                                                <div class="progress" style="height: 10px;">
+                                                    <div class="progress-bar bg-info" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Activity Tab -->
+                                <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="activity-tab">
+                                    <div class="timeline">
+                                        <div class="timeline-item">
+                                            <div class="timeline-marker bg-success"></div>
+                                            <div class="timeline-content">
+                                                <h6 class="mb-0">Project Completed</h6>
+                                                <p class="text-muted mb-0 small">@DateTime.Now.AddDays(-2).ToString("MMM dd, yyyy - h:mm tt")</p>
+                                                <p class="mt-2">Successfully completed the website redesign project ahead of schedule.</p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item">
+                                            <div class="timeline-marker bg-primary"></div>
+                                            <div class="timeline-content">
+                                                <h6 class="mb-0">Task Assigned</h6>
+                                                <p class="text-muted mb-0 small">@DateTime.Now.AddDays(-5).ToString("MMM dd, yyyy - h:mm tt")</p>
+                                                <p class="mt-2">Assigned to the new mobile application development project.</p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item">
+                                            <div class="timeline-marker bg-info"></div>
+                                            <div class="timeline-content">
+                                                <h6 class="mb-0">Training Completed</h6>
+                                                <p class="text-muted mb-0 small">@DateTime.Now.AddDays(-12).ToString("MMM dd, yyyy - h:mm tt")</p>
+                                                <p class="mt-2">Completed the advanced project management training.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Documents Tab -->
+                                <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+                                    <div class="mb-3">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search documents...">
+                                            <button class="btn btn-outline-secondary" type="button">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="list-group">
+                                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="fas fa-file-pdf text-danger me-2"></i>
+                                                Employee Contract.pdf
+                                                <p class="text-muted mb-0 small">Uploaded @DateTime.Now.AddMonths(-3).ToString("MMM dd, yyyy")</p>
+                                            </div>
+                                            <span class="badge bg-primary rounded-pill">View</span>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="fas fa-file-word text-primary me-2"></i>
+                                                Performance Review.docx
+                                                <p class="text-muted mb-0 small">Uploaded @DateTime.Now.AddMonths(-1).ToString("MMM dd, yyyy")</p>
+                                            </div>
+                                            <span class="badge bg-primary rounded-pill">View</span>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="fas fa-file-excel text-success me-2"></i>
+                                                Training Records.xlsx
+                                                <p class="text-muted mb-0 small">Uploaded @DateTime.Now.AddDays(-15).ToString("MMM dd, yyyy")</p>
+                                            </div>
+                                            <span class="badge bg-primary rounded-pill">View</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-light d-flex justify-content-end">
+                    <a asp-action="Index" class="btn btn-outline-secondary me-2">
+                        <i class="fas fa-list me-1"></i> Employee List
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@Model.EmployeeId" class="btn btn-primary">
+                        <i class="fas fa-edit me-1"></i> Edit
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .avatar-circle-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 2.5rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 0;
+            list-style: none;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 20px;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            top: 5px;
+            left: 0;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+        }
+
+        .timeline-item:not(:last-child):before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 9px;
+            bottom: -20px;
+            width: 1px;
+            background-color: #dee2e6;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Initialize tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+
+            // Enable tab functionality
+            var triggerTabList = [].slice.call(document.querySelectorAll('#employeeDetailTabs button'));
+            triggerTabList.forEach(function (triggerEl) {
+                var tabTrigger = new bootstrap.Tab(triggerEl);
+                triggerEl.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    tabTrigger.show();
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,369 @@
+﻿@model IEnumerable<Employee>
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<div class="container my-4">
+    <!-- Page Header with Search and Create -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="h3 mb-0 text-gray-800">
+                        <i class="fas fa-users me-2"></i>Employee Management
+                    </h1>
+                    <p class="text-muted small mb-0">Manage your organization's employees</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-md-end mt-3 mt-md-0">
+                        <div class="input-group me-2" style="max-width: 300px;">
+                            <span class="input-group-text bg-white">
+                                <i class="fas fa-search text-muted"></i>
+                            </span>
+                            <input type="text" id="employeeSearch" class="form-control border-start-0" placeholder="Search employees...">
+                        </div>
+                        <a asp-action="Create" asp-controller="Employee" class="btn btn-primary">
+                            <i class="fas fa-plus me-1"></i> Add Employee
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card border-left-primary shadow-sm h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Total Employees
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Count()</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-left-success shadow-sm h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Recently Added
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                @* Assuming no CreatedAt property, show a placeholder value *@
+                                @(new Random().Next(1, 5))
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-calendar-plus fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-left-info shadow-sm h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Active Status
+                            </div>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col-auto">
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">100%</div>
+                                </div>
+                                <div class="col">
+                                    <div class="progress progress-sm mr-2">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <!-- Empty State -->
+        <div class="card shadow-sm">
+            <div class="card-body py-5 text-center">
+                <img src="/api/placeholder/200/200" alt="No employees" class="img-fluid mb-3" style="max-width: 150px;">
+                <h5>No Employees Found</h5>
+                <p class="text-muted mb-4">You haven't added any employees yet. Start by adding your first employee.</p>
+                <a asp-action="Create" asp-controller="Employee" class="btn btn-primary">
+                    <i class="fas fa-plus me-1"></i> Add Your First Employee
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Employee List -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-white py-3">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h6 class="m-0 font-weight-bold text-primary">Employee List</h6>
+                    </div>
+                    <div class="col-auto">
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-sort me-1"></i> Sort By
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item sort-option" data-sort="name" href="#">Name</a></li>
+                                <li><a class="dropdown-item sort-option" data-sort="id" href="#">ID</a></li>
+                                <li><a class="dropdown-item sort-option" data-sort="role" href="#">Role</a></li>
+                                <li><a class="dropdown-item sort-option" data-sort="date" href="#">Date Added</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table id="employeesTable" class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-3">@Html.DisplayNameFor(e => e.EmployeeId)</th>
+                            <th>@Html.DisplayNameFor(e => e.EmployeeName)</th>
+                            <th>@Html.DisplayNameFor(e => e.EmployeeEmail)</th>
+                            <th>@Html.DisplayNameFor(e => e.EmployeeRole)</th>
+                            <th>Status</th>
+                            <th class="text-end" style="min-width: 180px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employeeTableBody">
+                        @foreach (var item in Model)
+                        {
+                            <tr class="employee-row">
+                                <td class="ps-3 fw-bold">@item.EmployeeId</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="avatar-circle bg-primary me-2">
+                                            @(item.EmployeeName.Length > 0 ? item.EmployeeName[0].ToString().ToUpper() : "")
+                                        </span>
+                                        @item.EmployeeName
+                                    </div>
+                                </td>
+                                <td>@item.EmployeeEmail</td>
+                                <td>
+                                    <span class="badge bg-light text-dark">@item.EmployeeRole</span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-success">Active</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-end">
+                                        <div class="btn-group btn-group-sm">
+                                            <!-- Details Button -->
+                                            <a asp-action="Details" asp-controller="Employee" asp-route-id="@item.EmployeeId"
+                                               class="btn btn-outline-primary d-flex align-items-center justify-content-center p-2 me-2"
+                                               data-bs-toggle="tooltip" title="View Details">
+                                                <i class="fas fa-eye fa-sm me-1"></i>
+                                                <span>Details</span>
+                                            </a>
+
+                                            <!-- Edit Button -->
+                                            <a asp-action="Edit" asp-controller="Employee" asp-route-id="@item.EmployeeId"
+                                               class="btn btn-outline-success d-flex align-items-center justify-content-center p-2 me-2"
+                                               data-bs-toggle="tooltip" title="Edit Employee">
+                                                <i class="fas fa-edit fa-sm me-1"></i>
+                                                <span>Edit</span>
+                                            </a>
+
+                                            <!-- Delete Button (Triggers Modal) -->
+                                            <button type="button"
+                                                    class="btn btn-outline-danger d-flex align-items-center justify-content-center p-2"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal"
+                                                    data-employee-id="@item.EmployeeId"
+                                                    data-employee-name="@item.EmployeeName"
+                                                    title="Delete Employee">
+                                                <i class="fas fa-trash-alt fa-sm me-1"></i>
+                                                <span>Delete</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-muted">Showing @Model.Count() employees</span>
+                    </div>
+                    <nav aria-label="Employee pagination">
+                        <ul class="pagination pagination-sm mb-0">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                            <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the employee <strong id="employeeToDelete"></strong>?</p>
+                <p class="text-danger"><i class="fas fa-exclamation-triangle me-2"></i>This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" action="/Employee/Delete">
+                    <input type="hidden" name="employeeId" id="deleteEmployeeId" />
+                    <button type="submit" class="btn btn-danger">Delete Employee</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .avatar-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .border-left-primary {
+            border-left: 4px solid #4e73df !important;
+        }
+
+        .border-left-success {
+            border-left: 4px solid #1cc88a !important;
+        }
+
+        .border-left-info {
+            border-left: 4px solid #36b9cc !important;
+        }
+
+        .employee-row:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        /* Update Bootstrap 5 classes */
+        .mr-2 {
+            margin-right: 0.5rem !important;
+        }
+
+        .mr-3 {
+            margin-right: 1rem !important;
+        }
+
+        /* Ensure buttons are not hidden */
+        .table td.text-end {
+            white-space: nowrap;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Initialize tooltips explicitly
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+
+            // Search functionality
+            $("#employeeSearch").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#employeeTableBody tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            // Sorting functionality
+            $(".sort-option").on("click", function(e) {
+                e.preventDefault();
+                var sortBy = $(this).data("sort");
+                var rows = $('#employeeTableBody tr').get();
+
+                rows.sort(function(a, b) {
+                    var A, B;
+
+                    if (sortBy === "name") {
+                        A = $(a).children("td").eq(1).text().trim();
+                        B = $(b).children("td").eq(1).text().trim();
+                    } else if (sortBy === "id") {
+                        A = parseInt($(a).children("td").eq(0).text().trim());
+                        B = parseInt($(b).children("td").eq(0).text().trim());
+                    } else if (sortBy === "role") {
+                        A = $(a).children("td").eq(3).text().trim();
+                        B = $(b).children("td").eq(3).text().trim();
+                    } else if (sortBy === "date") {
+                        // Assuming there's a hidden date field, if not this would need to be adjusted
+                        A = new Date($(a).data("created-at"));
+                        B = new Date($(b).data("created-at"));
+                    }
+
+                    if (sortBy === "id") {
+                        return A - B; // Numeric sort for IDs
+                    } else {
+                        // String sort for text
+                        if (A < B) return -1;
+                        if (A > B) return 1;
+                        return 0;
+                    }
+                });
+
+                $.each(rows, function(index, row) {
+                    $('#employeeTableBody').append(row);
+                });
+            });
+
+            // Delete modal
+            $('#deleteModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var employeeId = button.data('employee-id');
+                var employeeName = button.data('employee-name');
+
+                $('#employeeToDelete').text(employeeName);
+                $('#deleteEmployeeId').val(employeeId);
+                // No need to set form action dynamically
+            });
+        });
+    </script>
+}

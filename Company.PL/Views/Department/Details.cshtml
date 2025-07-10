@@ -1,0 +1,78 @@
+﻿@model Company.PL.Models.DepartmentDetailsViewModel
+@{
+    ViewData["Title"] = "Department Details";
+}
+
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h2 class="mb-0">Department Details</h2>
+                    <a asp-controller="Department" asp-action="Index" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-3 text-muted">Code</dt>
+                        <dd class="col-sm-9 fw-semibold">@Model.Department.Code</dd>
+
+                        <dt class="col-sm-3 text-muted">Name</dt>
+                        <dd class="col-sm-9 fw-semibold">@Model.Department.Name</dd>
+
+                        <dt class="col-sm-3 text-muted">Created At</dt>
+                        <dd class="col-sm-9 fw-semibold">@Model.Department.CreatedAt.ToString("MMMM dd, yyyy")</dd>
+                    </dl>
+                </div>
+                <div class="card-footer bg-transparent d-flex justify-content-between">
+                    <a asp-action="Delete" asp-route-id="@Model.Department.Id" class="btn btn-outline-danger">
+                        <i class="fas fa-trash"></i> Delete
+                    </a>
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@Model.Department.Id" class="btn btn-outline-success me-2">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="fas fa-list"></i> Back to List
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Employees Table -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-users me-2"></i>Employees in this Department</h5>
+                </div>
+                <div class="card-body p-0">
+                    @if (Model.Employees != null && Model.Employees.Any())
+                    {
+                        <table class="table table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var emp in Model.Employees)
+                                {
+                                    <tr>
+                                        <td>@emp.EmployeeName</td>
+                                        <td>@emp.EmployeeEmail</td>
+                                        <td>@emp.EmployeeRole</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="p-3 text-muted">No employees found in this department.</div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

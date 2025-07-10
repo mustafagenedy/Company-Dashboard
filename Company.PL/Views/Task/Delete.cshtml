@@ -1,0 +1,34 @@
+@model Company.DAL.Entity.Task
+@{
+    ViewData["Title"] = "Delete Task";
+}
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+                    <h2 class="mb-0">Delete Task</h2>
+                    <a asp-action="Index" class="btn btn-sm btn-outline-light">
+                        <i class="fas fa-arrow-left"></i> Cancel
+                    </a>
+                </div>
+                <div class="card-body">
+                    <p>Are you sure you want to delete this task?</p>
+                    <dl class="row mb-0">
+                        <dt class="col-sm-3 text-muted">Title</dt>
+                        <dd class="col-sm-9 fw-semibold">@Model.Title</dd>
+                        <dt class="col-sm-3 text-muted">Project</dt>
+                        <dd class="col-sm-9">@Model.Project?.Name</dd>
+                    </dl>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" asp-for="Id" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
